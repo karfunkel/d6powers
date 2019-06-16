@@ -51,6 +51,11 @@ let helper = {
 export default new Vuex.Store({
     state: {
         sidebar: false,
+        modes: [
+            {text: 'Character Creation', value: "C"},
+            {text: 'Character Advancement', value: "A"}
+        ],
+        mode: 'C',
         dicevalues: [
             "1D", "1D+1", "1D+2", "2D", "2D+1", "2D+2", "3D", "3D+1", "3D+2", "4D", "4D+1", "4D+2", "5D", "5D+1",
             "5D+2", "6D", "6D+1", "6D+2", "7D", "7D+1", "7D+2", "8D", "8D+1", "8D+2", "9D", "9D+1", "9D+2", "10D", "10D+1",
@@ -132,6 +137,13 @@ export default new Vuex.Store({
                 ]
             },
         ],
+        rules: {
+            crp: {
+                attributeCost: 4,
+                skillCost: 1,
+                specializationCost: 1 / 3,
+            }
+        },
         character: {
             name: "",
             archetype: "",
@@ -143,14 +155,16 @@ export default new Vuex.Store({
             gender: "",
             occupation: "",
             move: 10,
-            freecrp: 120,
+            freecrp: 0,
             crp: 120,
             quote: "",
             age: "",
             height: "",
             weight: "",
-            physicaldmg: "",
+            physicaldmg: "1D+0",
+            funds: "1D+0",
             freecp: 5,
+            usedcp: 0,
             cp: 5,
             attributes: []
         },
@@ -198,6 +212,12 @@ export default new Vuex.Store({
         updateField,
         toggleSidebar(state) {
             state.sidebar = !state.sidebar
+        },
+        storeCrp(state, value) {
+            state.character.freecrp = value
+        },
+        storeCp(state, value) {
+            state.character.freecp = value
         },
         setAttributeValue(state, obj) {
             let attribute = helper.attribute(state)(obj.attribute)
