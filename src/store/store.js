@@ -9,9 +9,7 @@ Vue.use(Vuex)
 let helper = {
     templateAttribute(state) {
         return (name) => {
-            return state.attributes.find(
-                el => el.name === name
-            )
+            return state.attributes[name]
         }
     },
     templateSkill(state) {
@@ -19,21 +17,12 @@ let helper = {
             let templateAttribute = this.templateAttribute(state)(attr)
             if (templateAttribute === undefined)
                 throw new Error('Attribute ' + name + ' does not exist')
-            return templateAttribute.skills.find(el => el.name === name)
+            return templateAttribute.skills[name]
         }
     },
     attribute(state) {
         return (name) => {
-            return state.character.attributes.find(
-                el => el.name === name
-            )
-        }
-    },
-    attributeIndex(state) {
-        return (name) => {
-            return state.character.attributes.findIndex(
-                el => el.name === name
-            )
+            return state.character.attributes[name]
         }
     },
     skill(state) {
@@ -42,7 +31,7 @@ let helper = {
             if (attr === undefined) {
                 throw new Error('Attribute ' + attribute + ' does not exist')
             }
-            return attr.skills.find(el => el.name === name)
+            return attr.skills[name]
         }
     }
 }
@@ -64,79 +53,79 @@ export default new Vuex.Store({
         ],
         archetypes: ["", "Adventurer", "Bravo", "Comedian", "Dark Avenger", "Icon", "Outsider", "Protector", "Rogue", "Scientist", "Warrior"],
         genders: ["male", "female"],
-        attributes: [
-            {
-                name: "Reflexes", skills: [
-                    {name: "climbing", specs: []},
-                    {name: "brawling", specs: []},
-                    {name: "dodge", specs: []},
-                    {name: "flying", specs: []},
-                    {name: "jumping", specs: []},
-                    {name: "melee combat", specs: []},
-                    {name: "piloting", specs: []},
-                    {name: "riding", specs: []},
-                    {name: "sneak", specs: []}
-                ]
+        attributes: {
+            Reflexes: {
+                name: "Reflexes", skills: {
+                    climbing: {name: "climbing", specs: {}},
+                    brawling: {name: "brawling", specs: {}},
+                    dodge: {name: "dodge", specs: {}},
+                    flying: {name: "flying", specs: {}},
+                    jumping: {name: "jumping", specs: {}},
+                    "melee combat": {name: "melee combat", specs: {}},
+                    piloting: {name: "piloting", specs: {}},
+                    riding: {name: "riding", specs: {}},
+                    sneak: {name: "sneak", specs: {}}
+                }
             },
-            {
-                name: "Perception", skills: [
-                    {name: "artist", specs: []},
-                    {name: "hide", specs: []},
-                    {name: "gambling", specs: []},
-                    {name: "know-how", specs: []},
-                    {name: "investigation", specs: []},
-                    {name: "repair", specs: []},
-                    {name: "search", specs: []},
-                    {name: "streetwise", specs: []},
-                    {name: "survival", specs: []},
-                    {name: "tracking", specs: []},
-                ]
+            Perception: {
+                name: "Perception", skills: {
+                    artist: {name: "artist", specs: {}},
+                    hide: {name: "hide", specs: {}},
+                    gambling: {name: "gambling", specs: {}},
+                    "know-how": {name: "know-how", specs: {}},
+                    investigation: {name: "investigation", specs: {}},
+                    repair: {name: "repair", specs: {}},
+                    search: {name: "search", specs: {}},
+                    streetwise: {name: "streetwise", specs: {}},
+                    survival: {name: "survival", specs: {}},
+                    tracking: {name: "tracking", specs: {}},
+                }
             },
-            {
-                name: "Knowledge", skills: [
-                    {name: "business", specs: []},
-                    {name: "demolition", specs: []},
-                    {name: "forgery", specs: []},
-                    {name: "gadgetry", specs: []},
-                    {name: "languages", specs: []},
-                    {name: "medicine", specs: []},
-                    {name: "navigation", specs: []},
-                    {name: "scholar", specs: []},
-                    {name: "security", specs: []},
-                    {name: "sorcery", specs: []},
-                    {name: "tech", specs: []},
-                ]
+            Knowledge: {
+                name: "Knowledge", skills: {
+                    business: {name: "business", specs: {}},
+                    demolition: {name: "demolition", specs: {}},
+                    forgery: {name: "forgery", specs: {}},
+                    gadgetry: {name: "gadgetry", specs: {}},
+                    languages: {name: "languages", specs: {}},
+                    medicine: {name: "medicine", specs: {}},
+                    navigation: {name: "navigation", specs: {}},
+                    scholar: {name: "scholar", specs: {}},
+                    security: {name: "security", specs: {}},
+                    sorcery: {name: "sorcery", specs: {}},
+                    tech: {name: "tech", specs: {}},
+                }
             },
-            {
-                name: "Presence", skills: [
-                    {name: "animal handling", specs: []},
-                    {name: "con", specs: []},
-                    {name: "command", specs: []},
-                    {name: "charm", specs: []},
-                    {name: "disguise", specs: []},
-                    {name: "intimidation", specs: []},
-                    {name: "persuasion", specs: []},
-                    {name: "willpower", specs: []},
-                ]
+            Presence: {
+                name: "Presence", skills: {
+                    "animal handling": {name: "animal handling", specs: {}},
+                    con: {name: "con", specs: {}},
+                    command: {name: "command", specs: {}},
+                    charm: {name: "charm", specs: {}},
+                    disguise: {name: "disguise", specs: {}},
+                    intimidation: {name: "intimidation", specs: {}},
+                    persuasion: {name: "persuasion", specs: {}},
+                    willpower: {name: "willpower", specs: {}},
+                }
             },
-            {
-                name: "Coordination", skills: [
-                    {name: "markmanship", specs: []},
-                    {name: "lockpicking", specs: []},
-                    {name: "missile weapons", specs: []},
-                    {name: "sleight of hand", specs: []},
-                    {name: "throwing", specs: []},
-                ]
+            Coordination: {
+                name: "Coordination", skills: {
+                    markmanship: {name: "markmanship", specs: {}},
+                    lockpicking: {name: "lockpicking", specs: {}},
+                    "missile weapons": {name: "missile weapons", specs: {}},
+                    "sleight of hand": {name: "sleight of hand", specs: {}},
+                    throwing: {name: "throwing", specs: {}},
+                }
             },
-            {
-                name: "Physique", skills: [
-                    {name: "lifting", specs: []},
-                    {name: "running", specs: []},
-                    {name: "stamina", specs: []},
-                    {name: "swimming", specs: []},
-                ]
+            Physique: {
+                name: "Physique", skills: {
+                    lifting: {name: "lifting", specs: {}},
+                    running: {name: "running", specs: {}},
+                    stamina: {name: "stamina", specs: {}},
+                    swimming: {name: "swimming", specs: {}},
+                }
             },
-        ],
+        },
         rules: {
             crp: {
                 attributeCost: 4,
@@ -166,7 +155,7 @@ export default new Vuex.Store({
             freecp: 5,
             usedcp: 0,
             cp: 5,
-            attributes: []
+            attributes: {}
         },
     },
     getters: {
@@ -190,20 +179,20 @@ export default new Vuex.Store({
     },
     actions: {
         getLazyAttribute({commit, state}, name) {
-            let attribute = state.character.attributes.find(el => el.name === name)
+            let attribute = state.character.attributes[name]
             if (attribute === undefined) {
                 commit('newAttribute', name)
-                attribute = state.character.attributes.find(el => el.name === name)
+                attribute = state.character.attributes[name]
             }
             return attribute
         },
         async getLazySkill({dispatch, commit}, obj) {
             let attribute = await dispatch('getLazyAttribute', obj.attribute)
-            let skill = attribute.skills.find(el => el.name === obj.name)
+            let skill = attribute.skills[obj.name]
             if (skill === undefined) {
                 commit('newSkill', {attribute: obj.attribute, name: obj.name})
                 attribute = await dispatch('getLazyAttribute', obj.attribute)
-                skill = attribute.skills.find(el => el.name === obj.name)
+                skill = attribute.skills[obj.name]
             }
             return skill
         },
@@ -240,13 +229,13 @@ export default new Vuex.Store({
             let templateAttr = helper.templateAttribute(state)(name)
             if (templateAttr === undefined)
                 throw new Error('Attribute ' + name + ' does not exist')
-            if (state.character.attributes.find(el => el.name === name) !== undefined)
+            if (state.character.attributes[name] !== undefined)
                 throw new Error('Attribute ' + name + ' already does exist')
-            state.character.attributes.push({
+            state.character.attributes[templateAttr.name] = {
                 name: templateAttr.name,
                 value: "",
-                skills: []
-            })
+                skills: {}
+            }
         },
         newSkill(state, obj) {
             let templateSkill = helper.templateSkill(state)(obj.attribute, obj.name)
@@ -256,16 +245,15 @@ export default new Vuex.Store({
             if (attribute === undefined) {
                 throw new Error('Attribute ' + obj.name + ' does not exist')
             }
-            if (attribute.skills.find(el => el.name === name) !== undefined)
+            if (attribute.skills[name] !== undefined)
                 throw new Error('Skill ' + obj.name + ' in Attribute ' + obj.attribute + ' already does exist')
-            attribute.skills.push({
+            attribute.skills[templateSkill.name] = {
                 name: templateSkill.name,
                 value: attribute.value,
-                specs: []
-            })
+                specs: {}
+            }
 
-            let idx = helper.attributeIndex(state)(obj.attribute)
-            state.character.attributes[idx] = attribute
+            state.character.attributes[obj.attribute] = attribute
         },
     },
 })

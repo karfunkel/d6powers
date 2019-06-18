@@ -1,11 +1,12 @@
 <template>
     <DiceField
+            ref="field"
             :value="skillValue"
             v-bind="$attrs"
             v-on="$listeners"
             class="skill-field"
             @input="handleInput"
-            :list="diceValues"
+            :list="items"
             dense
     ></DiceField>
 </template>
@@ -15,7 +16,8 @@
 
 <script>
     import DiceField from "./DiceField"
-    import { Dice2Pip } from '../mixins/DiceUtil.js'
+    import {Dice2Pip} from '../mixins/DiceUtil.js'
+    import Vue from 'vue'
 
     export default {
         mixins: [Dice2Pip],
@@ -26,23 +28,35 @@
         props: {
             "attribute": String,
             "skill": String,
-            "items": Array,
         },
         methods: {
             handleInput(event) {
                 this.$store.commit('setSkillValue', {attribute: this.attribute, skill: this.skill, value: event})
             },
-            diceValues() {
+            diceValues(value) {
                 let values = this.$store.getters.diceValues
-                let attr = this.$store.getters.attribute(this.attribute)
-                if (_.isNull(attr) || _.isUndefined(attr))
-                    return values
-                let min = this.toPips(attr.value)
+                let min = this.toPips(value)
                 return _.filter(values, el => this.toPips(el) > min)
             }
         },
-        data: () => ({}),
-        computed: {
+        data() {
+            return {
+                items: this.$store.getters.diceValues
+            }
+        },
+        computed: {},
+        mounted() {
+            let _self = this
+            this.$store.subscribe((mutation, state) => {
+                switch (mutation.type) {
+                    case 'setAttributeValue':
+                        if (this.attribute === mutation.payload.attribute) {
+                            console.log(_self.diceValues(mutation.payload.value))
+                            Vue.set(_self, 'items', _self.diceValues(mutation.payload.value))
+                        }
+                        break
+                }
+            })
         },
         asyncComputed: {
             async skillValue() {

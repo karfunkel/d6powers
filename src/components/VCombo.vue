@@ -44,6 +44,8 @@
             if (this.value !== null && this.value !== undefined) {
                 this.innerValue = this.value;
             }
+        },
+        methods: {
         }
     };
 </script>
