@@ -21,5 +21,8 @@ export default {
     freecp: 5,
     usedcp: 0,
     cp: 5,
-    attributes: {}
+    attributes: {},
+    advantages: [],
+    disadvantages: [],
+    powers: [],
 }

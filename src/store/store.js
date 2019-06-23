@@ -6,6 +6,8 @@ import { default as templates } from "./data/templates"
 import { default as templateAttributes } from "./data/attributes"
 import { default as rules } from "./data/rules"
 import { default as character } from "./data/character"
+import { default as options } from "./data/options"
+import { default as powers } from "./data/powers"
 
 Vue.use(Vuex)
 
@@ -52,6 +54,8 @@ export default new Vuex.Store({
         attributes: templateAttributes,
         rules: rules,
         character: character,
+        ...options,
+        ...powers,
         ...templates,
     },
     getters: {
