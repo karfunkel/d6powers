@@ -1,12 +1,20 @@
 <template>
     <v-container fluid grid-list-xs text-xs-center>
         <v-layout id="generalSection" row wrap>
-            <v-flex xs9>
+            <v-flex xs5>
+                <VSelectbox label="Powerlevel" v-model="powerlevel" name="mode" :items="powerlevels" item-text="name" item-value="name"
+                            :hint="powerlevel.description" persistent-hint return-object height="1em" dense></VSelectbox>
+            </v-flex>
+            <v-flex xs4>
                 <span>&nbsp;</span>
             </v-flex>
             <v-flex xs3>
                 <VSelectbox label="Mode" v-model="mode" name="mode" :items="modes" item-text="text" item-value="value"
                             height="1em" dense></VSelectbox>
+            </v-flex>
+
+            <v-flex xs12>
+                <span>&nbsp;</span>
             </v-flex>
 
             <v-flex xs3>
@@ -153,8 +161,10 @@
             ...mapFields([
                 'character',
                 'archetypes',
+                'powerlevels',
                 'modes',
                 'mode',
+                'character.powerlevel',
                 'character.name',
                 'character.archetype',
                 'character.player',
@@ -193,6 +203,9 @@
                     this.$store.commit('storeCrp', this.freecrp)
                 }
                 this.inChange = false
+            },
+            powerlevel(newVal, oldVal) {
+                this.$store.state.character.crp = newVal.crp
             }
         }
     }

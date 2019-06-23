@@ -1,4 +1,5 @@
 export default {
+    powerlevel: "",
     name: "",
     archetype: "",
     player: "",
