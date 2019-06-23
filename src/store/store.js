@@ -2,6 +2,10 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import {getField, updateField} from 'vuex-map-fields'
+import { default as templates } from "./data/templates"
+import { default as templateAttributes } from "./data/attributes"
+import { default as rules } from "./data/rules"
+import { default as character } from "./data/character"
 
 Vue.use(Vuex)
 
@@ -45,118 +49,10 @@ export default new Vuex.Store({
             {text: 'Character Advancement', value: "A"}
         ],
         mode: 'C',
-        dicevalues: [
-            "1D", "1D+1", "1D+2", "2D", "2D+1", "2D+2", "3D", "3D+1", "3D+2", "4D", "4D+1", "4D+2", "5D", "5D+1",
-            "5D+2", "6D", "6D+1", "6D+2", "7D", "7D+1", "7D+2", "8D", "8D+1", "8D+2", "9D", "9D+1", "9D+2", "10D", "10D+1",
-            "10D+2", "11D", "11D+1", "11D+2", "12D", "12D+1", "12D+2", "13D", "13D+1", "13D+2", "14D", "14D+1", "14D+2",
-            "15D", "15D+1", "15D+2", "16D"
-        ],
-        archetypes: ["", "Adventurer", "Bravo", "Comedian", "Dark Avenger", "Icon", "Outsider", "Protector", "Rogue", "Scientist", "Warrior"],
-        genders: ["male", "female"],
-        attributes: {
-            Reflexes: {
-                name: "Reflexes", skills: {
-                    climbing: {name: "climbing", specs: {}},
-                    brawling: {name: "brawling", specs: {}},
-                    dodge: {name: "dodge", specs: {}},
-                    flying: {name: "flying", specs: {}},
-                    jumping: {name: "jumping", specs: {}},
-                    "melee combat": {name: "melee combat", specs: {}},
-                    piloting: {name: "piloting", specs: {}},
-                    riding: {name: "riding", specs: {}},
-                    sneak: {name: "sneak", specs: {}}
-                }
-            },
-            Perception: {
-                name: "Perception", skills: {
-                    artist: {name: "artist", specs: {}},
-                    hide: {name: "hide", specs: {}},
-                    gambling: {name: "gambling", specs: {}},
-                    "know-how": {name: "know-how", specs: {}},
-                    investigation: {name: "investigation", specs: {}},
-                    repair: {name: "repair", specs: {}},
-                    search: {name: "search", specs: {}},
-                    streetwise: {name: "streetwise", specs: {}},
-                    survival: {name: "survival", specs: {}},
-                    tracking: {name: "tracking", specs: {}},
-                }
-            },
-            Knowledge: {
-                name: "Knowledge", skills: {
-                    business: {name: "business", specs: {}},
-                    demolition: {name: "demolition", specs: {}},
-                    forgery: {name: "forgery", specs: {}},
-                    gadgetry: {name: "gadgetry", specs: {}},
-                    languages: {name: "languages", specs: {}},
-                    medicine: {name: "medicine", specs: {}},
-                    navigation: {name: "navigation", specs: {}},
-                    scholar: {name: "scholar", specs: {}},
-                    security: {name: "security", specs: {}},
-                    sorcery: {name: "sorcery", specs: {}},
-                    tech: {name: "tech", specs: {}},
-                }
-            },
-            Presence: {
-                name: "Presence", skills: {
-                    "animal handling": {name: "animal handling", specs: {}},
-                    con: {name: "con", specs: {}},
-                    command: {name: "command", specs: {}},
-                    charm: {name: "charm", specs: {}},
-                    disguise: {name: "disguise", specs: {}},
-                    intimidation: {name: "intimidation", specs: {}},
-                    persuasion: {name: "persuasion", specs: {}},
-                    willpower: {name: "willpower", specs: {}},
-                }
-            },
-            Coordination: {
-                name: "Coordination", skills: {
-                    markmanship: {name: "markmanship", specs: {}},
-                    lockpicking: {name: "lockpicking", specs: {}},
-                    "missile weapons": {name: "missile weapons", specs: {}},
-                    "sleight of hand": {name: "sleight of hand", specs: {}},
-                    throwing: {name: "throwing", specs: {}},
-                }
-            },
-            Physique: {
-                name: "Physique", skills: {
-                    lifting: {name: "lifting", specs: {}},
-                    running: {name: "running", specs: {}},
-                    stamina: {name: "stamina", specs: {}},
-                    swimming: {name: "swimming", specs: {}},
-                }
-            },
-        },
-        rules: {
-            crp: {
-                attributeCost: 4,
-                skillCost: 1,
-                specializationCost: 1 / 3,
-            }
-        },
-        character: {
-            name: "",
-            archetype: "",
-            player: "",
-            ka: 0,
-            fate: 1,
-            body: 0,
-            species: "",
-            gender: "",
-            occupation: "",
-            move: 10,
-            freecrp: 0,
-            crp: 120,
-            quote: "",
-            age: "",
-            height: "",
-            weight: "",
-            physicaldmg: "1D+0",
-            funds: "1D+0",
-            freecp: 5,
-            usedcp: 0,
-            cp: 5,
-            attributes: {}
-        },
+        attributes: templateAttributes,
+        rules: rules,
+        character: character,
+        ...templates,
     },
     getters: {
         getField,
