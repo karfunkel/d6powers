@@ -231,11 +231,11 @@ export default new Vuex.Store({
                 throw new Error('Attribute ' + name + ' does not exist')
             if (state.character.attributes[name] !== undefined)
                 throw new Error('Attribute ' + name + ' already does exist')
-            state.character.attributes[templateAttr.name] = {
+            Vue.set(state.character.attributes, templateAttr.name, {
                 name: templateAttr.name,
                 value: "",
                 skills: {}
-            }
+            })
         },
         newSkill(state, obj) {
             let templateSkill = helper.templateSkill(state)(obj.attribute, obj.name)
@@ -247,13 +247,12 @@ export default new Vuex.Store({
             }
             if (attribute.skills[name] !== undefined)
                 throw new Error('Skill ' + obj.name + ' in Attribute ' + obj.attribute + ' already does exist')
-            attribute.skills[templateSkill.name] = {
+            Vue.set(attribute.skills, templateSkill.name, {
                 name: templateSkill.name,
                 value: attribute.value,
                 specs: {}
-            }
-
-            state.character.attributes[obj.attribute] = attribute
+            })
+            Vue.set(state.character.attributes, obj.attribute, attribute)
         },
     },
 })

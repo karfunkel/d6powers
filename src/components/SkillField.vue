@@ -51,7 +51,6 @@
                 switch (mutation.type) {
                     case 'setAttributeValue':
                         if (this.attribute === mutation.payload.attribute) {
-                            console.log(_self.diceValues(mutation.payload.value))
                             Vue.set(_self, 'items', _self.diceValues(mutation.payload.value))
                         }
                         break
