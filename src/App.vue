@@ -76,4 +76,11 @@
     .v-card .dice-field .v-text-field {
         padding-top: 0;
     }
+    .v-card .skillRow.specBtn {
+        padding: 0 !important;
+        transform: scale(0.75)
+    }
+    .v-card .specBtn button {
+        margin: 0;
+    }
 </style>

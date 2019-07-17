@@ -2,12 +2,12 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import {getField, updateField} from 'vuex-map-fields'
-import { default as templates } from "./data/templates"
-import { default as templateAttributes } from "./data/attributes"
-import { default as rules } from "./data/rules"
-import { default as character } from "./data/character"
-import { default as options } from "./data/options"
-import { default as powers } from "./data/powers"
+import {default as templates} from "./data/templates"
+import {default as templateAttributes} from "./data/attributes"
+import {default as rules} from "./data/rules"
+import {default as character} from "./data/character"
+import {default as options} from "./data/options"
+import {default as powers} from "./data/powers"
 
 Vue.use(Vuex)
 
@@ -39,9 +39,17 @@ let helper = {
             }
             return attr.skills[name]
         }
+    },
+    specialization(state) {
+        return (attribute, skill, name) => {
+            let _skill = this.skill(state)(attribute, skill)
+            if (_skill === undefined) {
+                throw new Error('Skill ' + skill + ' in attribute ' + attribute + ' does not exist')
+            }
+            return _skill.specializations[name]
+        }
     }
 }
-
 
 export default new Vuex.Store({
     state: {
@@ -75,7 +83,9 @@ export default new Vuex.Store({
         skill(state, getters) {
             return helper.skill(state, getters)
         },
-
+        specialization(state, getters) {
+            return helper.specialization(state, getters)
+        },
     },
     actions: {
         getLazyAttribute({commit, state}, name) {
@@ -96,6 +106,16 @@ export default new Vuex.Store({
             }
             return skill
         },
+        async getLazySpecialization({dispatch, commit}, obj) {
+            let skill = await dispatch('getLazySkill', {attribute: obj.attribute, name: obj.skill})
+            let specialization = skill.specializations[obj.specialization]
+            if (specialization === undefined) {
+                commit('newSpecialization', {attribute: obj.attribute, skill: obj.skill, name: obj.specialization})
+                skill = await dispatch('getLazySkill', {attribute: obj.attribute, name: obj.skill})
+                specialization = skill.specializations[obj.specialization]
+            }
+            return specialization
+        },
     },
     mutations: {
         updateField,
@@ -111,18 +131,32 @@ export default new Vuex.Store({
         setAttributeValue(state, obj) {
             let attribute = helper.attribute(state)(obj.attribute)
             if (attribute === undefined) {
-                throw new Error('Attribute ' + obj.name + ' does not exist')
+                throw new Error('Attribute ' + obj.attribute + ' does not exist')
             }
             Vue.set(attribute, "value", obj.value)
         },
         setSkillValue(state, obj) {
             let attribute = helper.attribute(state)(obj.attribute)
             if (attribute === undefined) {
-                throw new Error('Attribute ' + obj.name + ' does not exist')
+                throw new Error('Attribute ' + obj.attribute + ' does not exist')
             }
             let skill = helper.skill(state)(obj.attribute, obj.skill)
             if (skill !== undefined) {
                 Vue.set(skill, "value", obj.value)
+            }
+        },
+        setSpecializationValue(state, obj) {
+            let attribute = helper.attribute(state)(obj.attribute)
+            if (attribute === undefined) {
+                throw new Error('Attribute ' + obj.attribute + ' does not exist')
+            }
+            let skill = helper.skill(state)(obj.attribute, obj.skill)
+            if (skill === undefined) {
+                throw new Error('Skill ' + obj.skill + ' in Attribute ' + obj.attribute + ' does not exist')
+            }
+            let specialization = helper.specialization(state)(obj.attribute, obj.skill, obj.specialization)
+            if (specialization !== undefined) {
+                Vue.set(specialization, "value", obj.value)
             }
         },
         newAttribute(state, name) {
@@ -130,7 +164,7 @@ export default new Vuex.Store({
             if (templateAttr === undefined)
                 throw new Error('Attribute ' + name + ' does not exist')
             if (state.character.attributes[name] !== undefined)
-                throw new Error('Attribute ' + name + ' already does exist')
+                throw new Error('Attribute ' + name + ' already exist')
             Vue.set(state.character.attributes, templateAttr.name, {
                 name: templateAttr.name,
                 value: "",
@@ -146,12 +180,30 @@ export default new Vuex.Store({
                 throw new Error('Attribute ' + obj.name + ' does not exist')
             }
             if (attribute.skills[name] !== undefined)
-                throw new Error('Skill ' + obj.name + ' in Attribute ' + obj.attribute + ' already does exist')
+                throw new Error('Skill ' + obj.name + ' in Attribute ' + obj.attribute + ' already exist')
             Vue.set(attribute.skills, templateSkill.name, {
                 name: templateSkill.name,
                 value: attribute.value,
-                specs: {}
+                specializations: {}
             })
+            Vue.set(state.character.attributes, obj.attribute, attribute)
+        },
+        newSpecialization(state, obj) {
+            let attribute = helper.attribute(state)(obj.attribute)
+            if (attribute === undefined) {
+                throw new Error('Attribute ' + obj.attribute + ' does not exist')
+            }
+            let skill = helper.skill(state)(obj.attribute, obj.skill)
+            if (skill === undefined) {
+                throw new Error('Skill ' + obj.skill + ' in Attribute ' + obj.attribute + ' does not exist')
+            }
+            if (skill.specializations[name] !== undefined)
+                throw new Error('Specialization ' + obj.name + ' in Skill ' + obj.skill + ' in Attribute ' + obj.attribute + ' already exist')
+            Vue.set(skill.specializations, obj.name, {
+                name: obj.name,
+                value: skill.value
+            })
+            Vue.set(attribute.skills, obj.skill, skill)
             Vue.set(state.character.attributes, obj.attribute, attribute)
         },
     },

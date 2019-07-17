@@ -3,20 +3,35 @@
         <div class='attributeHeader'>&nbsp;</div>
         <v-container fluid grid-list-xs>
             <v-layout :id="name" row wrap>
-                <v-flex xs8 class="attributeRow">
+                <v-flex xs7 class="attributeRow">
                     <div class="attribute">{{$store.getters.templateAttribute(name).name}}</div>
                 </v-flex>
                 <v-flex xs4 class="attributeRow">
                     <DiceField label="" v-model="attributeValue" :name="name" height="0.75em"></DiceField>
                 </v-flex>
+                <v-flex xs1 class="attributeRow">&nbsp;</v-flex>
 
                 <template v-for="skill in $store.getters.templateAttribute(name).skills">
-                    <v-flex xs8 class="skillRow">
+                    <v-flex xs7 class="skillRow">
                         <div class="skill">{{skill.name}}</div>
                     </v-flex>
                     <v-flex xs4 class="skillRow">
                         <SkillField :attribute="name" :skill="skill.name" :name="name+'_'+skill.name" height="0.75em"></SkillField>
                     </v-flex>
+                    <v-flex xs1 class="skillRow specBtn">
+                        <AddSpecialization :attribute="name" :skill="skill.name"></AddSpecialization>
+                    </v-flex>
+
+                    <template v-for="specialization in skill.specializations">
+                    <!-- TODO: add specializations -->
+                        <v-flex xs1 class="specializationRow">&nbsp;</v-flex>
+                        <v-flex xs7 class="specializationRow">
+                            <div class="specialization">{{specialization.name}}</div>
+                        </v-flex>
+                        <v-flex xs4 class="specializationRow">
+                            <SpecializationField :attribute="name" :skill="skill.name" :specialization="specialization.name" :name="name+'_'+skill.name+'_'+specialization.name" height="0.75em"></SpecializationField>
+                        </v-flex>
+                    </template>
                 </template>
             </v-layout>
         </v-container>
@@ -67,16 +82,18 @@
 </style>
 
 <script>
-    import DiceField from "./DiceField";
-    import SkillField from "./SkillField";
+    import DiceField from "./DiceField"
+    import SkillField from "./SkillField"
+    import AddSpecialization from "./AddSpecialization"
     //import {mapState} from 'vuex'
-    import { mapFields } from 'vuex-map-fields'
+    import {mapFields} from 'vuex-map-fields'
 
     export default {
         name: 'Attribute',
         components: {
             DiceField,
-            SkillField
+            SkillField,
+            AddSpecialization
         },
         data: () => ({}),
         props: {
