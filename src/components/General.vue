@@ -128,22 +128,27 @@
                     _.each(
                         _self.$store.state.character.attributes,
                         function (attribute) {
-                            let attr = _self.toPips(attribute.value)
-                            if (attr > 0)
-                                attr += 2
-                            free -= (attr * (crp.attributeCost / 3))
+                            let costs = _self.toPips(attribute.value)
+                            if (costs > 0)
+                                costs += 2
+                            free -= (costs * (crp.attributeCost / 3))
 
                             _.each(attribute.skills, function (skill) {
                                 let costs = _self.pipDiff(attribute.value, skill.value)
                                 if (costs > 0)
-                                    free -= costs
+                                    free -= (costs * (crp.skillCost / 3))
+
+                                _.each(skill.specializations, function (specialization) {
+                                    let costs = _self.pipDiff(skill.value, specialization.value)
+                                    if (costs > 0)
+                                        free -= (costs * (crp.specializationCost / 3))
+                                })
                             })
                         }
                     )
                     return free
                 },
                 set(value) {
-
                 }
             },
             freecp: {

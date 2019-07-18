@@ -36,8 +36,8 @@
                         <General/>
                     </v-flex>
 
-                    <v-flex v-for="attribute in $store.state.attributes" xs4>
-                        <Attribute :name="attribute.name"/>
+                    <v-flex v-for="attribute in $store.state.character.attributes" xs4>
+                        <Attribute :attribute="attribute"/>
                     </v-flex>
                 </v-layout>
             </v-container>

@@ -2,35 +2,35 @@
     <v-card color="light-grey" class="sheet">
         <div class='attributeHeader'>&nbsp;</div>
         <v-container fluid grid-list-xs>
-            <v-layout :id="name" row wrap>
+            <v-layout :id="attribute.name" row wrap>
                 <v-flex xs7 class="attributeRow">
-                    <div class="attribute">{{$store.getters.templateAttribute(name).name}}</div>
+                    <div class="attribute">{{attribute.name}}</div>
                 </v-flex>
                 <v-flex xs4 class="attributeRow">
-                    <DiceField label="" v-model="attributeValue" :name="name" height="0.75em"></DiceField>
+                    <DiceField label="" v-model="attributeValue" :name="attribute.name" @input="handleInput" height="0.75em"></DiceField>
                 </v-flex>
                 <v-flex xs1 class="attributeRow">&nbsp;</v-flex>
 
-                <template v-for="skill in $store.getters.templateAttribute(name).skills">
+                <template v-for="skill in attribute.skills">
                     <v-flex xs7 class="skillRow">
                         <div class="skill">{{skill.name}}</div>
                     </v-flex>
                     <v-flex xs4 class="skillRow">
-                        <SkillField :attribute="name" :skill="skill.name" :name="name+'_'+skill.name" height="0.75em"></SkillField>
+                        <SkillField :attribute="attribute" :skill="skill" :name="attribute.name + '_' + skill.name" height="0.75em"></SkillField>
                     </v-flex>
                     <v-flex xs1 class="skillRow specBtn">
-                        <AddSpecialization :attribute="name" :skill="skill.name"></AddSpecialization>
+                        <AddSpecialization :attribute="attribute" :skill="skill"></AddSpecialization>
                     </v-flex>
 
                     <template v-for="specialization in skill.specializations">
                     <!-- TODO: add specializations -->
-                        <v-flex xs1 class="specializationRow">&nbsp;</v-flex>
                         <v-flex xs7 class="specializationRow">
                             <div class="specialization">{{specialization.name}}</div>
                         </v-flex>
                         <v-flex xs4 class="specializationRow">
-                            <SpecializationField :attribute="name" :skill="skill.name" :specialization="specialization.name" :name="name+'_'+skill.name+'_'+specialization.name" height="0.75em"></SpecializationField>
+                            <SpecializationField :attribute="attribute" :skill="skill" :specialization="specialization" :name="attribute.name + '_' + skill.name + '_' + specialization.name" height="0.75em"></SpecializationField>
                         </v-flex>
+                        <v-flex xs1 class="specializationRow">&nbsp;</v-flex>
                     </template>
                 </template>
             </v-layout>
@@ -58,17 +58,23 @@
         text-align: start;
     }
 
+    .specialization {
+        text-align: start;
+        padding-left: 1.5em;
+    }
+
+
     .attributeRow {
         height: 3em;
         z-index: 2;
         color: white;
     }
 
-    .attributeRow .dice-field, .skillRow .dice-field {
+    .attributeRow .dice-field, .skillRow .dice-field, .specializationRow .dice-field {
         padding: 0;
     }
 
-    .skillRow {
+    .skillRow, .specializationRow {
         height: 2em;
     }
 
@@ -85,6 +91,7 @@
     import DiceField from "./DiceField"
     import SkillField from "./SkillField"
     import AddSpecialization from "./AddSpecialization"
+    import SpecializationField from "./SpecializationField"
     //import {mapState} from 'vuex'
     import {mapFields} from 'vuex-map-fields'
 
@@ -93,31 +100,29 @@
         components: {
             DiceField,
             SkillField,
-            AddSpecialization
+            AddSpecialization,
+            SpecializationField
         },
         data: () => ({}),
         props: {
-            name: String,
+            attribute: Object,
         },
         methods: {
-            handleSkillInput(ctx, skill) {
-                return (event) => {
-                    //this.$emit('input', event)
-                    ctx.$store.commit('setSkillValue', {attribute: this.name, skill: skill, value: event.value})
-                }
-            },
+            handleInput(event) {
+                this.$store.commit('attributeValue', {attribute: this.attribute.name, value: event})
+            }
         },
         computed: {
             attributeValue: {
                 get() {
-                    return this.$store.dispatch('getLazyAttribute', this.name).value
+                    return this.$store.getters.attribute(this.attribute.name).value
                 },
                 set(value) {
-                    this.$store.commit('setAttributeValue', {attribute: this.name, value: value})
+                    this.$store.commit('attributeValue', {attribute: this.attribute.name, value: value})
                 }
             },
             ...mapFields([
-                'character'
+                'character',
             ]),
         },
     }

@@ -26,42 +26,45 @@
             DiceField,
         },
         props: {
-            "attribute": String,
-            "skill": String,
+            "attribute": Object,
+            "skill": Object,
         },
         methods: {
             handleInput(event) {
-                this.$store.commit('setSkillValue', {attribute: this.attribute, skill: this.skill, value: event})
+                this.$store.commit('skillValue', {attribute: this.attribute.name, skill: this.skill.name, value: event})
             },
             diceValues(value) {
                 let values = this.$store.getters.diceValues
-                let attribute = this.$store.getters.attribute(this.attribute)
-                let min = _.max([this.toPips(value), this.toPips(attribute.value)])
+                let min = _.max([this.toPips(value), this.toPips(this.attribute.value)])
                 return _.filter(values, el => this.toPips(el) > min)
             }
         },
         data() {
             return {
-                items: this.$store.getters.diceValues
+                items: this.diceValues(this.attribute.value)
             }
         },
-        computed: {},
+        computed: {
+            skillValue: {
+                get() {
+                    return this.$store.getters.skill(this.attribute.name, this.skill.name).value
+                },
+                set(value) {
+                    this.$store.commit('skillValue', {attribute: this.attribute.name, skill:this.skill.name, value: value})
+                }
+            },
+        },
         mounted() {
             let _self = this
             this.$store.subscribe((mutation, state) => {
                 switch (mutation.type) {
-                    case 'setAttributeValue':
-                        if (this.attribute === mutation.payload.attribute) {
+                    case 'attributeValue':
+                        if (_self.attribute.name === mutation.payload.attribute) {
                             Vue.set(_self, 'items', _self.diceValues(mutation.payload.value))
                         }
                         break
                 }
             })
-        },
-        asyncComputed: {
-            async skillValue() {
-                return await this.$store.dispatch('getLazySkill', {attribute: this.attribute, name: this.skill}).value
-            }
         }
     }
 </script>

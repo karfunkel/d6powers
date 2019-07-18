@@ -1,73 +1,77 @@
 export default {
-    Reflexes: {
-        name: "Reflexes", skills: {
-            climbing: {name: "climbing"},
-            brawling: {name: "brawling"},
-            dodge: {name: "dodge"},
-            flying: {name: "flying"},
-            jumping: {name: "jumping"},
-            "melee combat": {name: "melee combat"},
-            piloting: {name: "piloting"},
-            riding: {name: "riding"},
-            sneak: {name: "sneak"}
+    newAttributeSet() {
+        return {
+            Reflexes: {
+                name: "Reflexes", value: '', skills: {
+                    climbing: {name: "climbing", value: '', specializations: {}},
+                    brawling: {name: "brawling", value: '', specializations: {}},
+                    dodge: {name: "dodge", value: '', specializations: {}},
+                    flying: {name: "flying", value: '', specializations: {}},
+                    jumping: {name: "jumping", value: '', specializations: {}},
+                    "melee combat": {name: "melee combat", value: '', specializations: {}},
+                    piloting: {name: "piloting", value: '', specializations: {}},
+                    riding: {name: "riding", value: '', specializations: {}},
+                    sneak: {name: "sneak", value: '', specializations: {}}
+                }
+            },
+            Perception: {
+                name: "Perception", value: '', skills: {
+                    artist: {name: "artist", value: '', specializations: {}},
+                    hide: {name: "hide", value: '', specializations: {}},
+                    gambling: {name: "gambling", value: '', specializations: {}},
+                    "know-how": {name: "know-how", value: '', specializations: {}},
+                    investigation: {name: "investigation", value: '', specializations: {}},
+                    repair: {name: "repair", value: '', specializations: {}},
+                    search: {name: "search", value: '', specializations: {}},
+                    streetwise: {name: "streetwise", value: '', specializations: {}},
+                    survival: {name: "survival", value: '', specializations: {}},
+                    tracking: {name: "tracking", value: '', specializations: {}},
+                }
+            },
+            Knowledge: {
+                name: "Knowledge", value: '', skills: {
+                    business: {name: "business", value: '', specializations: {}},
+                    demolition: {name: "demolition", value: '', specializations: {}},
+                    forgery: {name: "forgery", value: '', specializations: {}},
+                    gadgetry: {name: "gadgetry", value: '', specializations: {}},
+                    languages: {name: "languages", value: '', specializations: {}},
+                    medicine: {name: "medicine", value: '', specializations: {}},
+                    navigation: {name: "navigation", value: '', specializations: {}},
+                    scholar: {name: "scholar", value: '', specializations: {}},
+                    security: {name: "security", value: '', specializations: {}},
+                    sorcery: {name: "sorcery", value: '', specializations: {}},
+                    tech: {name: "tech", value: '', specializations: {}},
+                }
+            },
+            Presence: {
+                name: "Presence", value: '', skills: {
+                    "animal handling": {name: "animal handling", value: '', specializations: {}},
+                    con: {name: "con", value: '', specializations: {}},
+                    command: {name: "command", value: '', specializations: {}},
+                    charm: {name: "charm", value: '', specializations: {}},
+                    disguise: {name: "disguise", value: '', specializations: {}},
+                    intimidation: {name: "intimidation", value: '', specializations: {}},
+                    persuasion: {name: "persuasion", value: '', specializations: {}},
+                    willpower: {name: "willpower", value: '', specializations: {}},
+                }
+            },
+            Coordination: {
+                name: "Coordination", value: '', skills: {
+                    markmanship: {name: "markmanship", value: '', specializations: {}},
+                    lockpicking: {name: "lockpicking", value: '', specializations: {}},
+                    "missile weapons": {name: "missile weapons", value: '', specializations: {}},
+                    "sleight of hand": {name: "sleight of hand", value: '', specializations: {}},
+                    throwing: {name: "throwing", value: '', specializations: {}},
+                }
+            },
+            Physique: {
+                name: "Physique", value: '', skills: {
+                    lifting: {name: "lifting", value: '', specializations: {}},
+                    running: {name: "running", value: '', specializations: {}},
+                    stamina: {name: "stamina", value: '', specializations: {}},
+                    swimming: {name: "swimming", value: '', specializations: {}},
+                }
+            },
         }
-    },
-    Perception: {
-        name: "Perception", skills: {
-            artist: {name: "artist"},
-            hide: {name: "hide"},
-            gambling: {name: "gambling"},
-            "know-how": {name: "know-how"},
-            investigation: {name: "investigation"},
-            repair: {name: "repair"},
-            search: {name: "search"},
-            streetwise: {name: "streetwise"},
-            survival: {name: "survival"},
-            tracking: {name: "tracking"},
-        }
-    },
-    Knowledge: {
-        name: "Knowledge", skills: {
-            business: {name: "business"},
-            demolition: {name: "demolition"},
-            forgery: {name: "forgery"},
-            gadgetry: {name: "gadgetry"},
-            languages: {name: "languages"},
-            medicine: {name: "medicine"},
-            navigation: {name: "navigation"},
-            scholar: {name: "scholar"},
-            security: {name: "security"},
-            sorcery: {name: "sorcery"},
-            tech: {name: "tech"},
-        }
-    },
-    Presence: {
-        name: "Presence", skills: {
-            "animal handling": {name: "animal handling"},
-            con: {name: "con"},
-            command: {name: "command"},
-            charm: {name: "charm"},
-            disguise: {name: "disguise"},
-            intimidation: {name: "intimidation"},
-            persuasion: {name: "persuasion"},
-            willpower: {name: "willpower"},
-        }
-    },
-    Coordination: {
-        name: "Coordination", skills: {
-            markmanship: {name: "markmanship"},
-            lockpicking: {name: "lockpicking"},
-            "missile weapons": {name: "missile weapons"},
-            "sleight of hand": {name: "sleight of hand"},
-            throwing: {name: "throwing"},
-        }
-    },
-    Physique: {
-        name: "Physique", skills: {
-            lifting: {name: "lifting"},
-            running: {name: "running"},
-            stamina: {name: "stamina"},
-            swimming: {name: "swimming"},
-        }
-    },
+    }
 }

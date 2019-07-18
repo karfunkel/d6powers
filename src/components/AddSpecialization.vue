@@ -13,7 +13,7 @@
             <v-card>
                 <v-card-text>
                     <v-text-field label="Name" v-model="name"></v-text-field>
-                    <small class="grey--text">* This specialization will be added to <strong>{{attribute}}/{{skill}}</strong>.</small>
+                    <small class="grey--text">* This specialization will be added to <strong>{{attribute.name}}/{{skill.name}}</strong>.</small>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -30,20 +30,17 @@
         data() {
             return {
                 dialog: false,
-                name: 'xxx'
+                name: ''
             }
         },
         props: {
-            "attribute": String,
-            "skill": String,
+            "attribute": Object,
+            "skill": Object,
         },
         methods: {
-            addSpecialization() {
-                let skill = this.$store.getters.skill(this.attribute, this.skill)
-                this.$store.dispatch('getLazySpecialization', {attribute: this.attribute, skill: this.skill, specialization: this.name})
-                // TODO:
+            async addSpecialization() {
+                this.$store.commit('newSpecialization', {attribute: this.attribute.name, skill: this.skill.name, name: this.name})
                 this.dialog = false
-
             }
         },
     }

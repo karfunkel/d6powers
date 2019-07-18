@@ -26,58 +26,56 @@
             DiceField,
         },
         props: {
-            "attribute": String,
-            "skill": String,
-            "specialization": String,
+            "attribute": Object,
+            "skill": Object,
+            "specialization": Object,
         },
         methods: {
             handleInput(event) {
-                this.$store.commit('setSpecializationValue', {
-                    attribute: this.attribute,
-                    skill: this.skill,
-                    specialization: this.specialization,
+                this.$store.commit('specializationValue', {
+                    attribute: this.attribute.name,
+                    skill: this.skill.name,
+                    specialization: this.specialization.name,
                     value: event
                 })
             },
             diceValues(value) {
                 let values = this.$store.getters.diceValues
-                let attribute = this.$store.getters.attribute(this.attribute)
-                let skill = this.$store.getters.skill(this.attribute, this.skill)
-                let min = _.max([this.toPips(value), this.toPips(attribute.value), this.toPips(skill.value)])
+                let min = _.max([this.toPips(value), this.toPips(this.attribute.value), this.toPips(this.skill.value)])
                 return _.filter(values, el => this.toPips(el) > min)
             }
         },
         data() {
             return {
-                items: this.$store.getters.diceValues,
+                items: this.diceValues(this.skill.value),
             }
         },
-        computed: {},
+        computed: {
+            specializationValue: {
+                get() {
+                    return this.$store.getters.specialization(this.attribute.name, this.skill.name, this.specialization.name).value
+                },
+                set(value) {
+                    this.$store.commit('specializationValue', {attribute: this.attribute.name, skill: this.skill.name, specialization: this.specialization.name, value: value})
+                }
+            },
+        },
         mounted() {
             let _self = this
             this.$store.subscribe((mutation, state) => {
                 switch (mutation.type) {
-                    case 'setAttributeValue':
-                        if (this.attribute === mutation.payload.attribute) {
+                    case 'attributeValue':
+                        if (_self.attribute.name === mutation.payload.attribute) {
                             Vue.set(_self, 'items', _self.diceValues(mutation.payload.value))
                         }
                         break
-                    case 'setSkillValue':
-                        if (this.skill === mutation.payload.skill) {
+                    case 'skillValue':
+                        if (_self.skill.name === mutation.payload.skill) {
                             Vue.set(_self, 'items', _self.diceValues(mutation.payload.value))
                         }
                         break
                 }
             })
         },
-        asyncComputed: {
-            async specializationValue() {
-                return await this.$store.dispatch('getLazySpecialization', {
-                    attribute: this.attribute,
-                    skill: this.skill,
-                    name: this.specialization
-                }).value
-            }
-        }
     }
 </script>
