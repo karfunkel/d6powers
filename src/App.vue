@@ -83,4 +83,10 @@
     .v-card .specBtn button {
         margin: 0;
     }
+    .v-tooltip__content span table td {
+        vertical-align: top;
+    }
+    .v-tooltip__content span table td:first-child {
+        font-weight: bold;
+    }
 </style>

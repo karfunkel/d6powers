@@ -2,8 +2,10 @@
     <v-container fluid grid-list-xs text-xs-center>
         <v-layout id="generalSection" row wrap>
             <v-flex xs5>
-                <VSelectbox label="Powerlevel" v-model="powerlevel" name="mode" :items="powerlevels" item-text="name" item-value="name"
-                            :hint="powerlevel.description" persistent-hint return-object height="1em" dense></VSelectbox>
+                <VSelectbox label="Powerlevel" v-model="powerlevel" name="mode" :items="powerlevels" item-text="name"
+                            item-value="name"
+                            :hint="powerlevel.description" persistent-hint return-object height="1em"
+                            dense></VSelectbox>
             </v-flex>
             <v-flex xs4>
                 <span>&nbsp;</span>
@@ -21,8 +23,22 @@
                 <VText label="Name" v-model="name" name="name" height="1em"></VText>
             </v-flex>
             <v-flex xs2>
-                <VSelectbox label="Archetype" :items="archetypes" v-model="archetype" name="archetype" dense
-                            height="1em"></VSelectbox>
+                <v-tooltip bottom slot="activator">
+                    <VSelectbox label="Archetype" :items="archetypeNames" v-model="archetype" name="archetype"
+                                slot="activator" dense height="1em"></VSelectbox>
+                    <span>
+                        <table>
+                            <tr>
+                               <td>Description:</td>
+                                <td>{{archetypeDesc}}</td>
+                            </tr>
+                            <tr>
+                               <td>ConceptBonus:</td>
+                                <td>{{archetypeBonus}}</td>
+                            </tr>
+                        </table>
+                    </span>
+                </v-tooltip>
             </v-flex>
             <v-flex xs3>
                 <VText label="Player" v-model="player" name="player" height="1em"></VText>
@@ -163,6 +179,19 @@
                     this.$store.state.character.freecp = value
                 }
             },
+            archetypeNames() {
+                return _.map(this.$store.state.archetypes, (it) => {
+                    return it.name
+                })
+            },
+            archetypeDesc() {
+                let arch = this.archetypeObj()
+                return arch ? arch.description : ""
+            },
+            archetypeBonus() {
+                let arch = this.archetypeObj()
+                return arch ? arch.conceptBonus : ""
+            },
             ...mapFields([
                 'character',
                 'archetypes',
@@ -195,6 +224,11 @@
             inChange: false
         }),
         methods: {
+            archetypeObj() {
+                return _.find(this.$store.state.archetypes, (it) => {
+                    return it.name == this.archetype
+                })
+            },
             debug() {
                 console.log(this.$store.state.character)
             }
