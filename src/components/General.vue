@@ -2,10 +2,22 @@
     <v-container fluid grid-list-xs text-xs-center>
         <v-layout id="generalSection" row wrap>
             <v-flex xs5>
-                <VSelectbox label="Powerlevel" v-model="powerlevel" name="mode" :items="powerlevels" item-text="name"
-                            item-value="name"
-                            :hint="powerlevel.description" persistent-hint return-object height="1em"
-                            dense></VSelectbox>
+                <v-tooltip bottom slot="activator">
+                    <VSelectbox label="Powerlevel" v-model="powerlevel" name="mode" :items="powerlevels"
+                                item-text="name"
+                                item-value="name"
+                                return-object height="1em"
+                                slot="activator"
+                                dense></VSelectbox>
+                    <span>
+                        <table v-if="powerlevel">
+                            <tr><td>Description</td><td>{{powerlevel.description}}</td></tr>
+                            <tr><td>Creation Points</td><td>{{powerlevel.crp}}</td></tr>
+                            <tr><td>Max. Dis-/Advantages</td><td>{{powerlevel.maxDisAdv}}</td></tr>
+                            <tr><td>Max. Powers</td><td>{{powerlevel.maxPowers}}</td></tr>
+                        </table>
+                    </span>
+                </v-tooltip>
             </v-flex>
             <v-flex xs4>
                 <span>&nbsp;</span>
@@ -28,14 +40,8 @@
                                 slot="activator" dense height="1em"></VSelectbox>
                     <span>
                         <table>
-                            <tr>
-                               <td>Description:</td>
-                                <td>{{archetypeDesc}}</td>
-                            </tr>
-                            <tr>
-                               <td>ConceptBonus:</td>
-                                <td>{{archetypeBonus}}</td>
-                            </tr>
+                            <tr><td>Description</td><td>{{archetypeObj.description}}</td></tr>
+                            <tr><td>ConceptBonus</td><td>{{archetypeObj.conceptBonus}}</td></tr>
                         </table>
                     </span>
                 </v-tooltip>
@@ -184,13 +190,10 @@
                     return it.name
                 })
             },
-            archetypeDesc() {
-                let arch = this.archetypeObj()
-                return arch ? arch.description : ""
-            },
-            archetypeBonus() {
-                let arch = this.archetypeObj()
-                return arch ? arch.conceptBonus : ""
+            archetypeObj() {
+                return _.find(this.$store.state.archetypes, (it) => {
+                    return it.name == this.archetype
+                })
             },
             ...mapFields([
                 'character',
@@ -224,11 +227,6 @@
             inChange: false
         }),
         methods: {
-            archetypeObj() {
-                return _.find(this.$store.state.archetypes, (it) => {
-                    return it.name == this.archetype
-                })
-            },
             debug() {
                 console.log(this.$store.state.character)
             }
