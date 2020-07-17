@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "vee-validate": "^2.2.13",
     "vue": "^2.6.10",
     "vue-async-computed": "^3.7.0",
